@@ -1,0 +1,31 @@
+TEMPLATE = app
+
+QT += qml quick widgets
+
+SOURCES += main.cpp \
+    filereader.cpp \
+    downloader.cpp \
+    customnetworkaccessmanager.cpp \
+    networkaccessmanagerfactory.cpp
+
+RESOURCES += qml.qrc Maps.qrc
+
+# Additional import path used to resolve QML modules in Qt Creator's code model
+QML_IMPORT_PATH =
+
+# Default rules for deployment.
+include(deployment.pri)
+
+HEADERS += \
+    filereader.h \
+    downloader.h \
+    customnetworkaccessmanager.h \
+    networkaccessmanagerfactory.h
+
+QT += sql
+
+ANDROID_PACKAGE_SOURCE_DIR = $$PWD/android
+
+OTHER_FILES += \
+    android/AndroidManifest.xml
+

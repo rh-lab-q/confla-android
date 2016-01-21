@@ -32,3 +32,8 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+
+Maps/OSM/12
+Maps/OSM/13
+Maps/OSM/14
+Maps/OSM/15
