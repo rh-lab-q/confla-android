@@ -98,7 +98,7 @@ Page {
                 Text {
                     id: mapDelegateText;
                     x: Theme.paddingLarge
-                    //% "Places"
+                    //% "Important Places"
                     text: qsTrId("section-about-places")
                     anchors.verticalCenter: parent.verticalCenter
 

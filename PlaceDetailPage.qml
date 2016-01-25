@@ -90,7 +90,7 @@ Page {
             font.pointSize: Theme.primary_pointSize;
 
             textFormat: Text.RichText;
-            text: "<style type='text/css'>a:link{color:"+Theme.primaryColor+"; } a:visited{color:"+Theme.primaryHighlightColor+"}</style>  "+ description
+            text: "<style type='text/css'>a:link{color:"+Theme.section_header_color+"; } a:visited{color:"+Theme.section_header_color+"}</style>  "+  description
             onLinkActivated: {
                 Qt.openUrlExternally(link);
             }

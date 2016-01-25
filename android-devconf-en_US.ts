@@ -14,8 +14,9 @@
     </message>
     <message id="section-about-places">
         <location filename="MainPage.qml" line="102"/>
-        <source>Places</source>
-        <translation>Places</translation>
+        <source>Important Places</source>
+        <oldsource>Places</oldsource>
+        <translation>Important Places</translation>
     </message>
     <message id="section-header-schedule">
         <location filename="MainPage.qml" line="120"/>

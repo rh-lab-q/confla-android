@@ -230,6 +230,11 @@ Page {
                     filteredEventModel.append(item)
                 }
             }
+            if (filteredEventModel.count == 0) {
+//                console.error("favoritesModel " + JSON.stringify(favoritesModel));
+                favoritesModel = [];
+                saveFavorites(favoritesModel);
+            }
 
         } else { // filter according to time
 
@@ -257,6 +262,7 @@ Page {
             }
 
             rooms_count = rooms.length;
+            rooms.sort();
 
             roomsModel.clear();
             for (var i = 0; i < rooms.length; i++) {

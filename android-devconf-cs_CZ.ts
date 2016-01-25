@@ -19,8 +19,9 @@
     </message>
     <message id="section-about-places">
         <location filename="MainPage.qml" line="102"/>
-        <source>Places</source>
-        <translation>Místa</translation>
+        <source>Important Places</source>
+        <oldsource>Places</oldsource>
+        <translation>Důležité místa</translation>
     </message>
     <message id="section-header-schedule">
         <location filename="MainPage.qml" line="120"/>
