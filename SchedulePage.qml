@@ -30,8 +30,9 @@ Page {
     property int rooms_count: 1;
 
     function roomToIndex(room_name) {
-        for (var i = 0; i < rooms.length; i++) {
-            if (rooms[i] === room_name) {
+        for (var i = 0; i < roomsModel.count; i++) {
+            var item = roomsModel.get(i);
+            if (item.name === room_name) {
                 return i;
             }
         }
@@ -223,8 +224,14 @@ Page {
                 var item = eventModel.get(i);
 
                 if ( isInFavorites(item.hash)) {
-                    var idx = roomToIndex(item.room_short);
+                    var idx = -1;
+                    for (var j = 0; j < rooms.length; j++) {
+                        if (rooms[j] === item.room_short) {
+                            idx = j;
+                        }
+                    }
                     if (idx === -1) {
+                        console.error("push:" + item.room_short)
                         rooms.push(item.room_short)
                     }
                     filteredEventModel.append(item)
@@ -246,7 +253,12 @@ Page {
 
                 if (item.event_start > filter_start && item.event_start < filter_end) {
 
-                    var idx = roomToIndex(item.room_short);
+                    var idx = -1;
+                    for (var j = 0; j < rooms.length; j++) {
+                        if (rooms[j] === item.room_short) {
+                            idx = j;
+                        }
+                    }
                     if (idx === -1) {
                         rooms.push(item.room_short)
                     }
