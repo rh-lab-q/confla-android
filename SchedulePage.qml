@@ -26,7 +26,6 @@ Page {
 
     property int slot_count: Math.ceil((slot_last - slot_first)/slot_length);
 
-    property variant rooms;
     property int rooms_count: 1;
 
     function roomToIndex(room_name) {
@@ -213,7 +212,7 @@ Page {
     function updateFilter() {
         filteredEventModel.clear()
 
-        rooms = [];
+        var rooms = [];
 
 
         if (filter_favorites) {
@@ -231,7 +230,6 @@ Page {
                         }
                     }
                     if (idx === -1) {
-                        console.error("push:" + item.room_short)
                         rooms.push(item.room_short)
                     }
                     filteredEventModel.append(item)
