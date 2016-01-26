@@ -133,6 +133,7 @@ Page {
                     var targetScale = 0.5*(pinchArea.maxScale-pinchArea.minScale) + pinchArea.minScale
                     bounceBackAnimation.to = (( imageItem.scale-pinchArea.minScale) > 0.5) ? pinchArea.minScale : targetScale;
                     bounceBackAnimation.start()
+                    imageFlickable.returnToBounds()
 
                 }
             }
