@@ -23,6 +23,7 @@ BackgroundItem {
         anchors.left: parent.left;
         anchors.top: parent.top;
         anchors.margins: Theme.paddingMedium
+        textFormat: Text.RichText;
     }
     Text {
         id: endTimeLabel
@@ -32,6 +33,7 @@ BackgroundItem {
         anchors.left: parent.left;
         anchors.top: startTimeLabel.bottom
         anchors.margins: Theme.paddingMedium
+        textFormat: Text.RichText;
 
     }
 
@@ -43,6 +45,7 @@ BackgroundItem {
         anchors.left: parent.left;
         anchors.top: endTimeLabel.bottom;
         anchors.margins: Theme.paddingMedium
+        textFormat: Text.RichText;
 
     }
 
@@ -56,6 +59,8 @@ BackgroundItem {
         //               font.family: Theme.fontFamilyHeading
         font.weight: Font.Bold
         text: "|"
+        textFormat: Text.RichText;
+
     }
 
 

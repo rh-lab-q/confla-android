@@ -10,4 +10,5 @@ Rectangle {
     anchors.bottom: parent.bottom;
     anchors.topMargin: Theme.margin
     anchors.bottomMargin: Theme.margin
+    clip: true;
 }

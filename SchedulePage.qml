@@ -120,12 +120,15 @@ Page {
                     eventDetailPage.roomColor = model.room_color
                     eventDetailPage.hash = model.hash;
                     eventDetailPage.inFavorites = isInFavorites(eventDetailPage.hash);
+                    eventDetailPage.tags = model.tags_str;
                     eventDetailPage.um.clear()
                     var speakersArray = JSON.parse(model.speakers);
                     for (var i = 0; i < speakersArray.length; i++) {
                         var detail = dataSource.getSpeakerDetail(speakersArray[i])
                         eventDetailPage.um.append(detail)
                     }
+
+
                     pageStack.push(eventDetailPage);
                 }
 
@@ -175,6 +178,8 @@ Page {
                 eventDetailPage.roomColor = model.room_color
                 eventDetailPage.hash = model.hash;
                 eventDetailPage.inFavorites = isInFavorites(eventDetailPage.hash);
+                eventDetailPage.tags = model.tags_str;
+
                 eventDetailPage.um.clear()
                 var speakersArray = JSON.parse(model.speakers);
                 for (var i = 0; i < speakersArray.length; i++) {
@@ -236,7 +241,6 @@ Page {
                 }
             }
             if (filteredEventModel.count == 0) {
-//                console.error("favoritesModel " + JSON.stringify(favoritesModel));
                 favoritesModel = [];
                 saveFavorites(favoritesModel);
             }
@@ -307,6 +311,15 @@ Page {
             }
             item.speakers = JSON.stringify(obj);
             item.speakers_str = F.make_speakers_str(obj); // need to work with object
+
+
+            if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
+                obj = eval(item.tags);
+            } else {
+                obj = item.tags;
+            }
+
+            item.tags_str = F.make_speakers_str(obj)
 
 
             item.event_start = parseInt(item.event_start, 10);

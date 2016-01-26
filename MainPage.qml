@@ -205,9 +205,10 @@ Page {
                             var detail = dataSource.getSpeakerDetail(speakersArray[i])
                             eventDetailPage.um.append(detail)
                         }
+
+                        eventDetailPage.tags = model.tags_str;
                         eventDetailPage.hash = model.hash;
                         eventDetailPage.inFavorites = schedulePage.isInFavorites(eventDetailPage.hash);
-
                         pageStack.push(eventDetailPage);
                     }
 
@@ -303,6 +304,14 @@ Page {
                     item.speakers = JSON.stringify(item.speakers)
                 }
                 item.speakers_str = F.make_speakers_str(obj); // need to work with object
+
+                if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
+                    obj = eval(item.tags);
+                } else {
+                    obj = item.tags;
+                }
+
+                item.tags_str = F.make_speakers_str(obj)
 
                 currentEvents.append(item)
                 j++;

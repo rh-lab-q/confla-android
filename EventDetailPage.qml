@@ -5,7 +5,7 @@ import "Theme.js" as Theme
 Page {
     id: page
 
-    property alias um: usersModel
+    property alias um: usersModel;
     property alias title: header.title
     property alias talkName: talkNameLabel.text
     property alias description: descriptionLabel.text
@@ -15,6 +15,7 @@ Page {
     property string endTime
     property alias room: roomLabel.text
     property alias roomColor: roomLabel.color
+    property alias tags: tagsLabel.text;
 
     property bool inFavorites: false;
 
@@ -27,6 +28,7 @@ Page {
     ListModel {
         id: usersModel;
     }
+
 
     Flickable {
         anchors.fill: parent;
@@ -151,6 +153,17 @@ Page {
             }
 
             Text {
+                id: tagsLabel;
+                anchors.left: parent.left
+                anchors.right: parent.right
+                anchors.margins: Theme.paddingMedium;
+                font.pointSize: Theme.secondary_pointSize
+                color: Theme.section_header_color
+                wrapMode: Text.WordWrap
+                textFormat: Text.RichText;
+            }
+
+            Text {
                 id: descriptionLabel
                 anchors.left: parent.left
                 anchors.right: parent.right
@@ -158,6 +171,7 @@ Page {
                 font.pointSize: Theme.secondary_pointSize
                 color: Theme.secondary_color
                 wrapMode: Text.WordWrap
+                textFormat: Text.RichText;
 
             }
             LineButton {
