@@ -16,7 +16,8 @@ BackgroundItem {
     property bool inFavorites: false;
 
     clip: true;
-    border.color: inFavorites ? Qt.lighter(Theme.header_color) : Theme.background_color_pressed;
+    border.color: Theme.background_color_pressed;
+//    border.color: inFavorites ? Qt.lighter(Theme.header_color) : Theme.background_color_pressed;
 
 
     Text {
@@ -46,6 +47,17 @@ BackgroundItem {
         wrapMode: Text.Wrap;
         textFormat: Text.RichText;
 
+    }
+
+    Image {
+        visible: inFavorites;
+        source: "./images/ic_favorite_white_48dp.png"
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+        fillMode: Image.PreserveAspectFit;
+        height: 24;
+        anchors.margins: Theme.paddingMedium;
+        opacity: 0.5;
     }
 
 

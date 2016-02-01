@@ -188,7 +188,7 @@ Page {
                     roomColor:  model.room_color;
                     speakers_str: model.speakers_str;
                     topic: model.topic
-
+                    inFavorites: schedulePage.isInFavorites(model.hash);
 
                     onClicked: {
                         eventDetailPage.title = model.type;

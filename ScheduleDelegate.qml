@@ -14,6 +14,7 @@ BackgroundItem {
     property string speakers_str;
     property string topic;
     property int currentTimestamp;
+    property bool inFavorites;
 
     Text {
         id: startTimeLabel
@@ -78,6 +79,17 @@ BackgroundItem {
                  : (scheduleDelegate.highlighted ? Theme.primary_color_highlight : Theme.primary_color)
         wrapMode: Text.Wrap;
         textFormat: Text.RichText;
+    }
+
+    Image {
+        visible: inFavorites;
+        source: "./images/ic_favorite_white_48dp.png"
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+        fillMode: Image.PreserveAspectFit;
+        height: 24;
+        anchors.margins: Theme.paddingMedium;
+        opacity: 0.5;
     }
 
 

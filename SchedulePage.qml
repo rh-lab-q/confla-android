@@ -165,6 +165,8 @@ Page {
             speakers_str: model.speakers_str;
             topic: model.topic
             currentTimestamp: currentTime;
+            inFavorites: isInFavorites(model.hash);
+
 
 
             onClicked: {
@@ -177,7 +179,7 @@ Page {
                 eventDetailPage.room = model.room;
                 eventDetailPage.roomColor = model.room_color
                 eventDetailPage.hash = model.hash;
-                eventDetailPage.inFavorites = isInFavorites(eventDetailPage.hash);
+                eventDetailPage.inFavorites = isInFavorites(model.hash);
                 eventDetailPage.tags = model.tags_str;
 
                 eventDetailPage.um.clear()
