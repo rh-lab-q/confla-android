@@ -8,22 +8,36 @@ ApplicationWindow {
     visible: true
     width: 480
     height: 800
-    //% "DevConf"
+    //% "Confla"
     title: qsTrId("application-title")
     color: Theme.background_color
 
 
     StackView {
         id: pageStack;
-        initialItem: mainPage;
+        initialItem: conferenceListPage;
         anchors.fill: parent;
         width: parent.width;
         height: parent.height
     }
 
+    ConferenceListPage {
+        id: conferenceListPage;
+        onSelectConference: {
+//            name, url, checksum, feedback_url
+            dataSource.init_conference(conf_data);
+            if (replace) {
+                pageStack.replace(conferenceDetailPage);
+            } else {
+                pageStack.push(conferenceDetailPage);
 
-    MainPage {
-        id: mainPage
+            }
+        }
+    }
+
+    ConferenceDetailPage {
+        id: conferenceDetailPage
+
     }
 
     AboutPage {
@@ -33,7 +47,7 @@ ApplicationWindow {
     SchedulePage {
         id: schedulePage
         onSaveFavorites: {
-            dataSource.configSet("favorites",JSON.stringify(favoritesModel));
+            dataSource.setFavorites(conferenceDetailPage.url_id, favoritesModel);
         }
 
     }
@@ -41,10 +55,10 @@ ApplicationWindow {
     EventDetailPage {
         id: eventDetailPage;
         onAddToFavorites: {
-            schedulePage.addToFavorites(hash);
+            schedulePage.addToFavorites(session_id);
         }
         onRemoveFromFavorites: {
-            schedulePage.removeFromFavorites(hash);
+            schedulePage.removeFromFavorites(session_id);
         }
     }
 

@@ -4,6 +4,9 @@ import "Theme.js" as Theme
 
 Page {
     id: page
+    property alias name: conferenceName.title;
+    property string url_id: ""
+    property string feedback_url: ""
 
     Flickable {
         anchors.fill: parent
@@ -15,22 +18,15 @@ Page {
 
             width: page.width
             spacing: Theme.paddingMedium
-            Image {
-                source: "./images/logo-transparent.png"
-                anchors.left: parent.left
-                anchors.right: parent.right;
-//                anchors.horizontalCenter: parent.horizontalCenter
-                fillMode: Image.PreserveAspectFit
-            }
-/*
+
             PageHeader {
-                //% "DevConf"
-                title: qsTrId("page-header-conference-title")
+                id: conferenceName
             }
-*/
+
             SectionHeader {
                 //% "About"
                 text: qsTrId("section-header-about")
+                visible: (aboutModel.count > 0)
             }
 
 
@@ -94,6 +90,7 @@ Page {
                 id: mapDelegate
                 width: column.width
                 height: mapDelegateText.paintedHeight + Theme.paddingLarge;
+                visible: (mapPage.mapWidget.places.count > 0)
 
                 Text {
                     id: mapDelegateText;
@@ -104,7 +101,7 @@ Page {
 
                     color: mapDelegate.highlighted ? Theme.primary_color_highlight : Theme.primary_color
                     wrapMode: Text.Wrap;
-//                    font.family: Theme.fontFamily
+                    //                    font.family: Theme.fontFamily
                     font.pointSize: Theme.primary_pointSize;
 
                 }
@@ -118,6 +115,7 @@ Page {
             SectionHeader {
                 //% "Schedule"
                 text: qsTrId("section-header-schedule")
+                visible: (daysModel.count > 0)
             }
 
             Repeater {
@@ -188,10 +186,10 @@ Page {
                     roomColor:  model.room_color;
                     speakers_str: model.speakers_str;
                     topic: model.topic
-                    inFavorites: schedulePage.isInFavorites(model.hash);
+                    inFavorites: schedulePage.isInFavorites(model.session_id);
 
                     onClicked: {
-                        eventDetailPage.title = model.type;
+                        //                        eventDetailPage.title = model.type;
                         eventDetailPage.talkName = model.topic
                         eventDetailPage.description = model.description
                         eventDetailPage.startTime = F.format_time(model.event_start);
@@ -203,12 +201,14 @@ Page {
                         var speakersArray = JSON.parse(model.speakers);
                         for (var i = 0; i < speakersArray.length; i++) {
                             var detail = dataSource.getSpeakerDetail(speakersArray[i])
-                            eventDetailPage.um.append(detail)
+                            if (detail !== undefined) {
+                                eventDetailPage.um.append(detail)
+                            }
                         }
 
                         eventDetailPage.tags = model.tags_str;
-                        eventDetailPage.hash = model.hash;
-                        eventDetailPage.inFavorites = schedulePage.isInFavorites(eventDetailPage.hash);
+                        eventDetailPage.session_id = model.session_id;
+                        eventDetailPage.inFavorites = schedulePage.isInFavorites(model.session_id);
                         pageStack.push(eventDetailPage);
                     }
 
@@ -219,6 +219,7 @@ Page {
             SectionHeader {
                 //% "News"
                 text: qsTrId("section-header-news")
+                visible: (rssModel.count > 0)
             }
 
             Repeater {
@@ -264,62 +265,72 @@ Page {
 
     function reload(d) {
 
-        var aboutArray = d.about;
         aboutModel.clear()
-        for (var i = 0; i < aboutArray.length; i++) {
-            aboutModel.append(aboutArray[i])
+        if (d.about !== undefined) {
+            var aboutArray = d.about;
+            for (var i = 0; i < aboutArray.length; i++) {
+                aboutModel.append(aboutArray[i])
+            }
         }
 
-        var daysArray = d.days;
         daysModel.clear();
-        for (var i = 0; i < daysArray.length; i++) {
-            var ts = parseInt(daysArray[i], 10);
-            var date = new Date(ts* 1000);
-            var dayName = F.dayOfWeek(date.getDay())
-            daysModel.append({'timestamp': parseInt(ts, 10), 'name': dayName})
+        if (d.days !== undefined) {
+            var daysArray = d.days;
+            for (var i = 0; i < daysArray.length; i++) {
+                var ts = parseInt(daysArray[i], 10);
+                var date = new Date(ts* 1000);
+                var dayName = F.dayOfWeek(date.getDay())
+                daysModel.append({'timestamp': parseInt(ts, 10), 'name': dayName})
+            }
         }
 
-        var rss = d.rss;
         rssModel.clear();
-        for (var i = 0; i < rss.length; i++) {
-            rssModel.append(rss[i])
+        if (d.rss !== undefined) {
+            var rss = d.rss;
+            for (var i = 0; i < rss.length; i++) {
+                rssModel.append(rss[i])
+            }
         }
 
-        var now = Math.floor(new Date().getTime()/1000);
-        var sessions = d.sessions
         currentEvents.clear();
-        var j = 0;
-        for (var i = 0; i < sessions.length; i++) {
-            var item = sessions[i];
-            if (item.event_start > now) {
-                var dayInt = new Date(parseInt(item.event_start, 10) * 1000).getDay();
-                item.event_day = F.dayOfWeek(dayInt)
+        if (d.sessions !== undefined) {
 
-                var obj;
-                if ((typeof item.speakers) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
-                    obj = eval(item.speakers);
-                    item.speakers = JSON.stringify(obj);
-                } else {
-                    obj = item.speakers;
-                    item.speakers = JSON.stringify(item.speakers)
+            var now = Math.floor(new Date().getTime()/1000);
+            var sessions = d.sessions
+            var j = 0;
+            for (var i = 0; i < sessions.length; i++) {
+                var item = sessions[i];
+                if (item.event_start > now) {
+                    var dayInt = new Date(parseInt(item.event_start, 10) * 1000).getDay();
+                    item.event_day = F.dayOfWeek(dayInt)
+
+                    var obj;
+                    if ((typeof item.speakers) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
+                        obj = eval(item.speakers);
+                        item.speakers = JSON.stringify(obj);
+                    } else {
+                        obj = item.speakers;
+                        item.speakers = JSON.stringify(item.speakers)
+                    }
+                    item.speakers_str = F.make_speakers_str(obj); // need to work with object
+
+                    if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
+                        obj = eval(item.tags);
+                    } else {
+                        obj = item.tags;
+                    }
+
+                    item.tags_str = F.make_speakers_str(obj)
+
+                    currentEvents.append(item)
+                    j++;
                 }
-                item.speakers_str = F.make_speakers_str(obj); // need to work with object
-
-                if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
-                    obj = eval(item.tags);
-                } else {
-                    obj = item.tags;
+                if (j >= 8) {
+                    break;
                 }
-
-                item.tags_str = F.make_speakers_str(obj)
-
-                currentEvents.append(item)
-                j++;
             }
-            if (j >= 8) {
-                break;
-            }
-        }
+        } // endif (d.sessions !== undefined)
+
 
         venueMapModel.clear();
         if (d.venueMap !== undefined) {

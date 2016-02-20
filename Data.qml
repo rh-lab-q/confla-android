@@ -3,12 +3,13 @@ import QtQuick 2.0
 
 Item {
 
-    property string dbName: "rhdevconf"
+    property string dbName: "confla"
     property string dbVersion: "1.0"
-    property string dbDisplayName: "rhdevconf"
-    property int dbEstimatedSize: 100;
+    property string dbDisplayName: "confla"
+    property int dbEstimatedSize: 10000;
 
-    property variant data
+    property variant conferences;
+    property variant data;
     property int lastUpdate: 0
     property string status: "idle"
 
@@ -18,7 +19,7 @@ Item {
 
 
     function configSet(key, value) {
-        //        console.log(key + " = " + value)
+        console.log("configSet(" +key + "," + value + ")")
 
         var db = Sql.LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
         db.transaction(
@@ -44,10 +45,11 @@ Item {
                         var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
                         if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
                             result = rs.rows.item(0).value
+                            console.log("configGet(" +key + ", " + result + ", "+ default_value +")")
                         }
                         else {
                             result = default_value;
-                            console.log(key + " : " + result + " (default)")
+                            console.log("configGet(" +key + ", " + default_value +") (default)")
                         }
                     }
                     )
@@ -55,69 +57,29 @@ Item {
     }
 
     function init_data() {
-        lastUpdate = parseInt(configGet("lastUpdate", 0), 10);
-
-        if (lastUpdate === 0) {
-            read_static();
-        } else {
-            read_cache()
-        }
-
+        read_cache();
         check_updates();
-    }
-
-    function read_static() {
-
-        var url = ":/data.json";
-//        if (filereader.file_exists(url)) {
-            data = JSON.parse(filereader.read_local(url))
-            status = "static"
-
-            console.log("data static")
-
-            updateUI();
-//        } else {
-//            console.error("file not exists " + url)
-//            status = "error"
-//        }
 
     }
 
     function read_cache() {
-        console.log("data cache")
-        data = JSON.parse(configGet("cache", "[]"))
+        conferences = JSON.parse(configGet("conferences", "{}"));
         updateUI();
     }
 
     function check_updates() {
-        console.log("check updates")
-//        var url = "http://pcmlich.fit.vutbr.cz/devconf/?ts=1&lang="+Qt.locale().name;
-//        var url = "http://pcmlich.fit.vutbr.cz/devconf/?ts=1&lang=cs_CZ" ;
-        var url = "http://devconf.cz/wall/sched.org/?ts=1&lang="+Qt.locale().name;
-
+        var url = "http://python-conflab.rhcloud.com/export/conference_list/?lang="+Qt.locale().name;
+//        var url = "http://pcmlich.fit.vutbr.cz/tmp/if.json"
+//        var url = "http://localhost:8000/export/conference_list/?lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
         http.open("GET", url, true)
-
-        status = "checking"
         http.onreadystatechange = function(){
             if (http.readyState == 4) {
                 if (http.status == 200) {
+                    conferences = JSON.parse(http.responseText);
+                    configSet("conferences", http.responseText)
+                    updateUI();
 
-                    status = "idle"
-                    try {
-                    var internet_timestamp = JSON.parse(http.responseText);
-                    } catch (e) {
-                        status = "exception"
-                    }
-
-                    if (internet_timestamp > lastUpdate) {
-                        console.log("lastUpdate is old "+ internet_timestamp + " > " + lastUpdate)
-                        download();
-                    }
-
-                } else { // offline or error while downloading
-                    status = "offline"
-                    console.log("error downloading in check_updates()")
                 }
             }
         }
@@ -129,12 +91,28 @@ Item {
 
     }
 
-    function download() {
-        console.log("data download")
+    function init_conference(conf_data) {
 
-//        var url = "http://pcmlich.fit.vutbr.cz/devconf/?json=1&lang="+Qt.locale().name;
-//        var url = "http://pcmlich.fit.vutbr.cz/devconf/?json=1&lang=cs_CZ";
-        var url = "http://devconf.cz/wall/sched.org/?json&lang="+Qt.locale().name;
+        data = JSON.parse(configGet(conf_data['url_id']+"/cache",'{}'));
+        updateUIConference(conf_data);
+
+        var cache_checksum = configGet(conf_data['url_id']+"/checksum", 'INVALID_CHECKSUM');
+
+        if (conf_data['checksum'] !== cache_checksum) {
+            console.error("init_conference " + conf_data['checksum'] + " -> " + cache_checksum)
+
+            download_conference(conf_data);
+        }
+
+
+
+
+    }
+
+
+    function download_conference(conf_data) {
+
+        var url = conf_data['url_json'] + "?json&lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
         http.open("GET", url, true)
 
@@ -143,15 +121,17 @@ Item {
             if (http.readyState == 4) {
                 if (http.status == 200) {
 
-                    data = JSON.parse(http.responseText);
-
-                    if (data.timestamp !== undefined) {
-                        configSet("cache", http.responseText)
-                        configSet("lastUpdate", data.timestamp)
+                    if (conferenceDetailPage.url_id === conf_data['url_id'] ) { // update UI only when showing same page
+                        data = JSON.parse(http.responseText);
+                        status = "idle"
+                        updateUIConference(conf_data);
                     }
 
-                    status = "idle"
-                    updateUI();
+                    configSet(conf_data['url_id']+"/cache", http.responseText)
+                    if (data.checksum !== undefined) {
+                        configSet(conf_data['url_id']+"/checksum", data.checksum)
+                    }
+
                 } else { // offline or error while downloading
                     console.log("error downloading ")
                     status = "offline"
@@ -166,24 +146,34 @@ Item {
 
     }
 
-    function getFavorites() {
-        return JSON.parse(configGet("favorites", "[]"));
+    function getFavorites(url_id) {
+        return JSON.parse(configGet(url_id+"/favorites", "[]"));
     }
 
-    function setFavorites(fav) {
-        configSet("favorites",JSON.stringify(fav));
+    function setFavorites(url_id, _fav) {
+        configSet(url_id+"/favorites", JSON.stringify(_fav));
+    }
+
+    function updateUIConference(conf_data) {
+
+        conferenceDetailPage.name = conf_data['name'];
+        conferenceDetailPage.url_id = conf_data['url_id'];
+        conferenceDetailPage.feedback_url = conf_data['url_feedback'];
+        conferenceDetailPage.reload(data);
+        schedulePage.reloadFavorites(getFavorites(conf_data['url_id']));
+        schedulePage.reload(data)
+        mapPage.reload(data);
+
     }
 
     function updateUI() {
 
-        mainPage.reload(data);
-        schedulePage.reloadFavorites(getFavorites());
-        schedulePage.reload(data)
-        mapPage.reload(data);
-//        coverPage.reload(data)
-//        coverPage.coundownTarget = data.days[0]
+        conferenceListPage.reload(conferences)
 
-//        secondPage.load(data.events);
+        //        coverPage.reload(data)
+        //        coverPage.coundownTarget = data.days[0]
+
+        //        secondPage.load(data.events);
     }
 
     function getSpeakerDetail(name) {

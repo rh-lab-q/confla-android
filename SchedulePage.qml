@@ -101,16 +101,16 @@ Page {
 
                 startTime: model.event_start;
                 endTime: model.event_end;
-//                roomShort: model.room_short;
+                //                roomShort: model.room_short;
                 roomColor:  model.room_color;
                 speakers_str: model.speakers_str;
                 topic: model.topic
                 currentTimestamp: currentTime;
-                inFavorites: isInFavorites(model.hash);
+                inFavorites: isInFavorites(model.session_id);
 
 
                 onClicked: {
-                    eventDetailPage.title = model.type;
+                    //                    eventDetailPage.title = model.type;
                     eventDetailPage.talkName = model.topic
                     eventDetailPage.description = model.description
                     eventDetailPage.startTime = F.format_time(model.event_start);
@@ -118,14 +118,16 @@ Page {
                     eventDetailPage.startDay = model.event_day;
                     eventDetailPage.room = model.room;
                     eventDetailPage.roomColor = model.room_color
-                    eventDetailPage.hash = model.hash;
-                    eventDetailPage.inFavorites = isInFavorites(eventDetailPage.hash);
+                    eventDetailPage.session_id = model.session_id;
+                    eventDetailPage.inFavorites = isInFavorites(model.session_id);
                     eventDetailPage.tags = model.tags_str;
                     eventDetailPage.um.clear()
                     var speakersArray = JSON.parse(model.speakers);
                     for (var i = 0; i < speakersArray.length; i++) {
                         var detail = dataSource.getSpeakerDetail(speakersArray[i])
-                        eventDetailPage.um.append(detail)
+                        if (detail !== undefined) {
+                            eventDetailPage.um.append(detail)
+                        }
                     }
 
 
@@ -165,12 +167,12 @@ Page {
             speakers_str: model.speakers_str;
             topic: model.topic
             currentTimestamp: currentTime;
-            inFavorites: isInFavorites(model.hash);
+            inFavorites: isInFavorites(model.session_id);
 
 
 
             onClicked: {
-                eventDetailPage.title = model.type;
+                //                eventDetailPage.title = model.type;
                 eventDetailPage.talkName = model.topic
                 eventDetailPage.description = model.description
                 eventDetailPage.startTime = F.format_time(model.event_start);
@@ -178,21 +180,23 @@ Page {
                 eventDetailPage.startDay = model.event_day;
                 eventDetailPage.room = model.room;
                 eventDetailPage.roomColor = model.room_color
-                eventDetailPage.hash = model.hash;
-                eventDetailPage.inFavorites = isInFavorites(model.hash);
+                eventDetailPage.session_id = model.session_id;
+                eventDetailPage.inFavorites = isInFavorites(model.session_id);
                 eventDetailPage.tags = model.tags_str;
 
                 eventDetailPage.um.clear()
                 var speakersArray = JSON.parse(model.speakers);
                 for (var i = 0; i < speakersArray.length; i++) {
                     var detail = dataSource.getSpeakerDetail(speakersArray[i])
-                    eventDetailPage.um.append(detail)
+                    if (detail !== undefined) {
+                        eventDetailPage.um.append(detail)
+                    }
                 }
                 pageStack.push(eventDetailPage);
             }
 
         }
-//        VerticalScrollDecorator {}
+        //        VerticalScrollDecorator {}
     }
 
     Button {
@@ -229,7 +233,7 @@ Page {
             for (var i = 0; i < eventModel.count; i++) {
                 var item = eventModel.get(i);
 
-                if ( isInFavorites(item.hash)) {
+                if ( isInFavorites(item.session_id)) {
                     var idx = -1;
                     for (var j = 0; j < rooms.length; j++) {
                         if (rooms[j] === item.room_short) {
@@ -241,10 +245,6 @@ Page {
                     }
                     filteredEventModel.append(item)
                 }
-            }
-            if (filteredEventModel.count == 0) {
-                favoritesModel = [];
-                saveFavorites(favoritesModel);
             }
 
         } else { // filter according to time
@@ -298,36 +298,39 @@ Page {
 
 
     function reload(d) {
-        var sessions = d.sessions
+
         eventModel.clear();
-        for (var i = 0; i < sessions.length; i++) {
-            var item = sessions[i];
-            var dayInt = new Date(parseInt(item.event_start, 10) * 1000).getDay();
-            item.event_day = F.dayOfWeek(dayInt)
+        if (d.sessions !== undefined) {
+            var sessions = d.sessions
+            for (var i = 0; i < sessions.length; i++) {
+                var item = sessions[i];
+                var dayInt = new Date(parseInt(item.event_start, 10) * 1000).getDay();
+                item.event_day = F.dayOfWeek(dayInt)
 
-            var obj;
-            if ((typeof item.speakers) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
-                obj = eval(item.speakers);
-            } else {
-                obj = item.speakers;
+                var obj;
+                if ((typeof item.speakers) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
+                    obj = eval(item.speakers);
+                } else {
+                    obj = item.speakers;
+                }
+                item.speakers = JSON.stringify(obj);
+                item.speakers_str = F.make_speakers_str(obj); // need to work with object
+
+
+                if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
+                    obj = eval(item.tags);
+                } else {
+                    obj = item.tags;
+                }
+
+                item.tags_str = F.make_speakers_str(obj)
+
+
+                item.event_start = parseInt(item.event_start, 10);
+                item.event_end = parseInt(item.event_end, 10);
+
+                eventModel.append(sessions[i])
             }
-            item.speakers = JSON.stringify(obj);
-            item.speakers_str = F.make_speakers_str(obj); // need to work with object
-
-
-            if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
-                obj = eval(item.tags);
-            } else {
-                obj = item.tags;
-            }
-
-            item.tags_str = F.make_speakers_str(obj)
-
-
-            item.event_start = parseInt(item.event_start, 10);
-            item.event_end = parseInt(item.event_end, 10);
-
-            eventModel.append(sessions[i])
         }
 
     }
@@ -336,24 +339,26 @@ Page {
         favoritesModel = f;
     }
 
-    function isInFavorites(hash) {
+    function isInFavorites(session_id) {
+        session_id = String(session_id)
+
         for (var i = 0; i < favoritesModel.length; i++) {
             var item = favoritesModel[i];
-            if (item === hash) {
+            if (item === session_id) {
                 return true;
             }
         }
         return false;
     }
 
-    function addToFavorites(hash) {
+    function addToFavorites(session_id) {
         var obj = [];
         for (var i = 0; i < favoritesModel.length; i++) {
             var item = favoritesModel[i];
             obj.push(item);
         }
 
-        obj.push(hash)
+        obj.push(session_id)
         favoritesModel = obj;
 
         saveFavorites(favoritesModel);
@@ -361,12 +366,12 @@ Page {
 
     }
 
-    function removeFromFavorites(hash) {
+    function removeFromFavorites(session_id) {
         var obj = [];
         var list = favoritesModel;
         for (var i = 0; i < list.length; i++) {
             var item = list[i];
-            if (item !== hash) {
+            if (item !== session_id) {
                 obj.push(item);
             }
         }

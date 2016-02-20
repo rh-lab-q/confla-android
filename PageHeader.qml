@@ -15,6 +15,7 @@ Rectangle {
         horizontalAlignment: Text.AlignRight;
         color: Theme.header_color;
         font.pointSize: Theme.header_pointSize;
+        wrapMode: Text.WrapAnywhere
     }
 
 }

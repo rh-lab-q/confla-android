@@ -6,7 +6,7 @@ Page {
     id: page
 
     property alias um: usersModel;
-    property alias title: header.title
+//    property alias title: header.title
     property alias talkName: talkNameLabel.text
     property alias description: descriptionLabel.text
 
@@ -19,10 +19,10 @@ Page {
 
     property bool inFavorites: false;
 
-    property string hash;
+    property string session_id;
 
-    signal addToFavorites(string hash);
-    signal removeFromFavorites(string hash);
+    signal addToFavorites(string session_id);
+    signal removeFromFavorites(string session_id);
 
 
     ListModel {
@@ -41,10 +41,10 @@ Page {
             spacing: Theme.paddingMedium
 
 
-            PageHeader {
-                id: header;
-                title: "event"
-            }
+//            PageHeader {
+//                id: header;
+//                title: "event"
+//            }
 
             Text {
                 id: talkNameLabel
@@ -184,10 +184,10 @@ Page {
                           qsTrId("add-to-favorites")
                 onClicked: {
                     if (inFavorites) {
-                        removeFromFavorites(hash);
+                        removeFromFavorites(session_id);
                         inFavorites = false;
                     } else {
-                        addToFavorites(hash);
+                        addToFavorites(session_id);
                         inFavorites = true;
                     }
                 }
@@ -200,7 +200,10 @@ Page {
                 //% "Leave your feedback here"
                 text: qsTrId("open-feedback-form")
                 onClicked: {
-                    Qt.openUrlExternally("http://www.devconf.cz/feedback/"+hash)
+                    var link = conferenceDetailPage.feedback_url;
+                    link = link.replace(/\{url_id\}/, conferenceDetailPage.url_id)
+                    link = link.replace(/\{session_id\}/, session_id)
+                    Qt.openUrlExternally( link )
                 }
             }
 

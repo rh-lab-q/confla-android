@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>MainPage.qml</file>
+        <file>ConferenceDetailPage.qml</file>
         <file>AboutPage.qml</file>
         <file>SchedulePage.qml</file>
         <file>EventDetailPage.qml</file>
@@ -16,17 +16,16 @@
         <file>BackgroundItem.qml</file>
         <file>RssItemDelegate.qml</file>
         <file>ScheduleDelegate.qml</file>
-        <file>data.json</file>
-        <file>android-devconf-cs_CZ.qm</file>
-        <file>android-devconf-en_US.qm</file>
+        <file>android-confla-cs_CZ.qm</file>
+        <file>android-confla-en_US.qm</file>
         <file>PhotoDetailPage.qml</file>
         <file>MapPage.qml</file>
         <file>PinchMap.qml</file>
-        <file>android-devconf-cs_CZ.ts</file>
+        <file>android-confla-cs_CZ.ts</file>
         <file>customnetworkaccessmanager.h</file>
         <file>PlaceDetailPage.qml</file>
-        <file>android-devconf-en_US.ts</file>
-        <file>android-devconf.pro</file>
+        <file>android-confla-en_US.ts</file>
+        <file>android-confla.pro</file>
         <file>images/marker-icon.png</file>
         <file>images/noimage-cantload.png</file>
         <file>images/noimage-disabled.png</file>
@@ -47,5 +46,6 @@
         <file>images/ic_directions_white_48dp.png</file>
         <file>ScheduleGridDelegate.qml</file>
         <file>LineButton.qml</file>
+        <file>ConferenceListPage.qml</file>
     </qresource>
 </RCC>
