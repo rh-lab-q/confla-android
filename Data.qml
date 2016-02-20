@@ -92,7 +92,6 @@ Item {
     }
 
     function init_conference(conf_data) {
-
         data = JSON.parse(configGet(conf_data['url_id']+"/cache",'{}'));
         updateUIConference(conf_data);
 
@@ -155,10 +154,9 @@ Item {
     }
 
     function updateUIConference(conf_data) {
-
         conferenceDetailPage.name = conf_data['name'];
-        conferenceDetailPage.url_id = conf_data['url_id'];
-        conferenceDetailPage.feedback_url = conf_data['url_feedback'];
+        conferenceDetailPage.url_id = (conf_data['url_id'] !== undefined) ? conf_data['url_id'] : '';
+        conferenceDetailPage.feedback_url = (conf_data['url_feedback'] !== undefined) ? conf_data['url_feedback'] : '';
         conferenceDetailPage.reload(data);
         schedulePage.reloadFavorites(getFavorites(conf_data['url_id']));
         schedulePage.reload(data)

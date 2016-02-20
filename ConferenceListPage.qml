@@ -45,7 +45,20 @@ Page {
 
             }
             onClicked: {
-                selectConference(model.name, model.url, model.checksum, model.feedback_url, false);
+
+                selectConference(
+                            {
+                                "url": model.url,
+                                "url_id": model.url_id,
+                                "url_json": model.url_json,
+                                "url_feedback": model.url_feedback,
+                                "icon": model.icon,
+                                "name": model.name,
+                                "splash": model.splash,
+                                "checksum": model.checksum,
+                            }
+
+                            , false);
             }
 
         }
@@ -75,12 +88,34 @@ Page {
             var conf;
             for (var i = 0; i < confs.length; i++) {
                 conf = confs[i];
-                conferencesListModel.append(conf)
-//                            console.error(JSON.stringify(conf));
+                conferencesListModel.append(
+                            {
+                                "url": conf.url,
+                                "url_id": conf.url_id,
+                                "url_json": conf.url_json,
+                                "url_feedback": conf.url_feedback,
+                                "icon": conf.icon,
+                                "name": conf.name,
+                                "splash": conf.splash,
+                                "checksum": conf.checksum,
+                            }
+                            )
+                //                            console.error(JSON.stringify(conf));
             }
             if (confs.length === 1) {
                 conf = confs[0];
-                selectConference(conf, true);
+                selectConference(
+                            {
+                                "url": conf.url,
+                                "url_id": conf.url_id,
+                                "url_json": conf.url_json,
+                                "url_feedback": conf.url_feedback,
+                                "icon": conf.icon,
+                                "name": conf.name,
+                                "splash": conf.splash,
+                                "checksum": conf.checksum,
+                            }
+                            , true);
             }
         }
 

@@ -194,7 +194,7 @@ Page {
             }
 
             LineButton {
-//                visible: false;
+                visible: (conferenceDetailPage.feedback_url !== '')
                 image: "./images/ic_stars_white_48dp.png";
 
                 //% "Leave your feedback here"
