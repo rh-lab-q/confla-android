@@ -17,17 +17,17 @@ int main(int argc, char *argv[])
 
     QTranslator translator;
 
-    if (translator.load(QLatin1String(":/android-confla-") + QLocale::system().name() + QLatin1String(".qm"))) {
-        app.installTranslator(&translator);
-    } else {
-        if (translator.load(QLatin1String(":/android-confla-en_US.qm"))) {
-            app.installTranslator(&translator);
-        }
-    }
-
-//    if (translator.load(QLatin1String(":/android-confla-cs_CZ.qm"))) {
+//    if (translator.load(QLatin1String(":/android-confla-") + QLocale::system().name() + QLatin1String(".qm"))) {
 //        app.installTranslator(&translator);
+//    } else {
+//        if (translator.load(QLatin1String(":/android-confla-en_US.qm"))) {
+//            app.installTranslator(&translator);
+//        }
 //    }
+
+    if (translator.load(QLatin1String(":/android-confla-cs_CZ.qm"))) {
+        app.installTranslator(&translator);
+    }
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("IMAGE_CACHE_FOLDER", "file://" +QStandardPaths::writableLocation(QStandardPaths::DataLocation) );
