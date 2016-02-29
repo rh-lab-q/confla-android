@@ -19,7 +19,7 @@ Item {
 
 
     function configSet(key, value) {
-        console.log("configSet(" +key + "," + value + ")")
+//        console.log("configSet(" +key + "," + value + ")")
 
         var db = Sql.LocalStorage.openDatabaseSync(dbName, dbVersion, dbDisplayName, dbEstimatedSize);
         db.transaction(
@@ -45,11 +45,11 @@ Item {
                         var rs = tx.executeSql('SELECT * FROM Keys WHERE key=?', [ key ]);
                         if (rs.rows.length === 1 && rs.rows.item(0).value.length > 0){
                             result = rs.rows.item(0).value
-                            console.log("configGet(" +key + ", " + result + ", "+ default_value +")")
+//                            console.log("configGet(" +key + ", " + result + ", "+ default_value +")")
                         }
                         else {
                             result = default_value;
-                            console.log("configGet(" +key + ", " + default_value +") (default)")
+//                            console.log("configGet(" +key + ", " + default_value +") (default)")
                         }
                     }
                     )
@@ -98,7 +98,7 @@ Item {
         var cache_checksum = configGet(conf_data['url_id']+"/checksum", 'INVALID_CHECKSUM');
 
         if (conf_data['checksum'] !== cache_checksum) {
-            console.error("init_conference " + conf_data['checksum'] + " -> " + cache_checksum)
+//            console.error("init_conference " + conf_data['checksum'] + " -> " + cache_checksum)
 
             download_conference(conf_data);
         }
