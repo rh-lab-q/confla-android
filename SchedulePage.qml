@@ -20,9 +20,9 @@ Page {
     property int slot_first: filter_start;
     property int slot_last: filter_end;
     property int slot_length: 1800; // time in seconds
-    property int slot_height: 80;
-    property int slot_width: 400;
-    property int header_width: 80;
+    property int slot_height: 0.8*dpiy;
+    property int slot_width: 4*dpix;
+    property int header_width: 0.8*dpix;
 
     property int slot_count: Math.ceil((slot_last - slot_first)/slot_length);
 
