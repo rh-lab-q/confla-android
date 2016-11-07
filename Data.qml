@@ -3,9 +3,9 @@ import QtQuick 2.0
 
 Item {
 
-    property string dbName: "confla"
+    property string dbName: "openalt"
     property string dbVersion: "1.0"
-    property string dbDisplayName: "confla"
+    property string dbDisplayName: "openalt"
     property int dbEstimatedSize: 10000;
 
     property variant conferences;
