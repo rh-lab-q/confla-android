@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
-<manifest package="cz.mlich.confla" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.08" android:versionCode="8" android:installLocation="auto">
-    <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="Confla" android:icon="@drawable/icon">
-        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="Confla" android:screenOrientation="unspecified" android:launchMode="singleTop">
+<manifest package="cz.openalt" xmlns:android="http://schemas.android.com/apk/res/android" android:versionName="1.08" android:versionCode="8" android:installLocation="auto">
+    <application android:hardwareAccelerated="true" android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="OpenAlt" android:icon="@drawable/icon">
+        <activity android:configChanges="orientation|uiMode|screenLayout|screenSize|smallestScreenSize|locale|fontScale|keyboard|keyboardHidden|navigation" android:name="org.qtproject.qt5.android.bindings.QtActivity" android:label="OpenAlt" android:screenOrientation="unspecified" android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>

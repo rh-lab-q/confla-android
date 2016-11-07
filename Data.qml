@@ -68,7 +68,7 @@ Item {
     }
 
     function check_updates() {
-        var url = "http://python-conflab.rhcloud.com/export/conference_list/?lang="+Qt.locale().name;
+        var url = "https://openalt.cz/wall/sched.org/?list";
 //        var url = "http://pcmlich.fit.vutbr.cz/tmp/if.json"
 //        var url = "http://localhost:8000/export/conference_list/?lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
@@ -76,6 +76,7 @@ Item {
         http.onreadystatechange = function(){
             if (http.readyState == 4) {
                 if (http.status == 200) {
+
                     conferences = JSON.parse(http.responseText);
                     configSet("conferences", http.responseText)
                     updateUI();
@@ -119,8 +120,8 @@ Item {
         http.onreadystatechange = function(){
             if (http.readyState == 4) {
                 if (http.status == 200) {
-
                     if (conferenceDetailPage.url_id === conf_data['url_id'] ) { // update UI only when showing same page
+                        console.log(http.responseText)
                         data = JSON.parse(http.responseText);
                         status = "idle"
                         updateUIConference(conf_data);
