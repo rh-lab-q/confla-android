@@ -312,7 +312,7 @@ Page {
                         obj = item.speakers;
                         item.speakers = JSON.stringify(item.speakers)
                     }
-                    item.speakers_str = F.make_speakers_str(obj); // need to work with object
+                    item.speakers_str = F.make_speakers_str(obj, d.users); // need to work with object
 
                     if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
                         obj = eval(item.tags);
@@ -320,7 +320,7 @@ Page {
                         obj = item.tags;
                     }
 
-                    item.tags_str = F.make_speakers_str(obj)
+                    item.tags_str = F.make_tags_str(obj)
 
                     currentEvents.append(item)
                     j++;

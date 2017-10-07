@@ -68,7 +68,8 @@ Item {
     }
 
     function check_updates() {
-        var url = "http://python-conflab.rhcloud.com/export/conference_list/?lang="+Qt.locale().name;
+        var url = "http://pcmlich.fit.vutbr.cz:8000/export/conference_list/?lang="+Qt.locale().name;
+        //        var url = "http://python-conflab.rhcloud.com/export/conference_list/?lang="+Qt.locale().name;
 //        var url = "http://pcmlich.fit.vutbr.cz/tmp/if.json"
 //        var url = "http://localhost:8000/export/conference_list/?lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
