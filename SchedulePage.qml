@@ -20,9 +20,9 @@ Page {
     property int slot_first: filter_start;
     property int slot_last: filter_end;
     property int slot_length: 1800; // time in seconds
-    property int slot_height: 80;
-    property int slot_width: 400;
-    property int header_width: 80;
+    property int slot_height: 0.8*dpiy;
+    property int slot_width: 4*dpix;
+    property int header_width: 0.8*dpix;
 
     property int slot_count: Math.ceil((slot_last - slot_first)/slot_length);
 
@@ -314,7 +314,7 @@ Page {
                     obj = item.speakers;
                 }
                 item.speakers = JSON.stringify(obj);
-                item.speakers_str = F.make_speakers_str(obj); // need to work with object
+                item.speakers_str = F.make_speakers_str(obj, d.users); // need to work with object
 
 
                 if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
@@ -323,7 +323,7 @@ Page {
                     obj = item.tags;
                 }
 
-                item.tags_str = F.make_speakers_str(obj)
+                item.tags_str = F.make_tags_str(obj)
 
 
                 item.event_start = parseInt(item.event_start, 10);
