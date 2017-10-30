@@ -10,7 +10,8 @@ BackgroundItem {
     property int startTime;
     property int endTime;
     property alias roomShort: roomLabel.text;
-    property alias roomColor: roomColorLabel.color;
+    property color roomColor
+    color: highlighted ? Qt.darker(roomColor): roomColor
     property string speakers_str;
     property string topic;
     property int currentTimestamp;
@@ -51,23 +52,8 @@ BackgroundItem {
     }
 
     Text {
-        id: roomColorLabel
-        anchors.left: startTimeLabel.right
-        anchors.top: parent.top;
-        anchors.margins: Theme.paddingMedium
-        font.pointSize: Theme.primary_pointSize
-        color: Theme.primary_color
-        //               font.family: Theme.fontFamilyHeading
-        font.weight: Font.Bold
-        text: "|"
-        textFormat: Text.RichText;
-
-    }
-
-
-    Text {
         id: topicLabel
-        anchors.left: roomColorLabel.right
+        anchors.left: startTimeLabel.right
         anchors.right: parent.right
         anchors.top: parent.top;
         anchors.margins: Theme.paddingMedium

@@ -17,6 +17,7 @@ BackgroundItem {
 
     clip: true;
     border.color: Theme.background_color_pressed;
+    color: roomColor
 //    border.color: inFavorites ? Qt.lighter(Theme.header_color) : Theme.background_color_pressed;
 
 
@@ -43,7 +44,7 @@ BackgroundItem {
         text: (speakers_str !== "") ? (speakers_str + ": " + topic) : topic
         color: (currentTimestamp > endTime)
                ? (scheduleGridDelegate.highlighted ? Theme.secondary_color_highlight : Theme.secondary_color)
-                 : (scheduleGridDelegate.highlighted ? Theme.primary_color_highlight : Theme.primary_color)
+               : (scheduleGridDelegate.highlighted ? Theme.primary_color_highlight : Theme.primary_color)
         wrapMode: Text.Wrap;
         textFormat: Text.RichText;
 

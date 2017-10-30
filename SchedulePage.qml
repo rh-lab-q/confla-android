@@ -143,7 +143,7 @@ Page {
         id: listView
         model: filteredEventModel
         anchors.fill: parent
-        spacing: Theme.paddingMedium
+        spacing: Theme.paddingSmall
 
         header: PageHeader {
             id: pageHeader

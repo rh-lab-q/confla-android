@@ -17,7 +17,7 @@ Page {
             id: column
 
             width: page.width
-            spacing: Theme.paddingMedium
+            spacing: Theme.paddingSmall
 
             PageHeader {
                 id: conferenceName
