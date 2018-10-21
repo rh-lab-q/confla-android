@@ -13,6 +13,10 @@ Page {
 
         contentHeight: column.height
 
+        Component.onCompleted: {
+            maximumFlickVelocity *= 2
+        }
+
         Column {
             id: column
 
