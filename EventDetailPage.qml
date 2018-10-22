@@ -6,7 +6,7 @@ Page {
     id: page
 
     property alias um: usersModel;
-//    property alias title: header.title
+    //    property alias title: header.title
     property alias talkName: talkNameLabel.text
     property alias description: descriptionLabel.text
 
@@ -14,7 +14,7 @@ Page {
     property string startTime
     property string endTime
     property alias room: roomLabel.text
-    property alias roomColor: roomLabel.color
+    property alias roomColor: tagsLabelBackground.color
     property alias tags: tagsLabel.text;
 
     property bool inFavorites: false;
@@ -41,10 +41,10 @@ Page {
             spacing: Theme.paddingMedium
 
 
-//            PageHeader {
-//                id: header;
-//                title: "event"
-//            }
+            //            PageHeader {
+            //                id: header;
+            //                title: "event"
+            //            }
 
             Text {
                 id: talkNameLabel
@@ -156,11 +156,16 @@ Page {
                 id: tagsLabel;
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.margins: Theme.paddingMedium;
+                anchors.margins: Theme.paddingLarge;
                 font.pointSize: Theme.secondary_pointSize
-                color: Theme.section_header_color
+                color: "#ffffff";//Theme.section_header_color
                 wrapMode: Text.WordWrap
                 textFormat: Text.RichText;
+                Rectangle {
+                    id: tagsLabelBackground
+                    anchors.fill: tagsLabel
+                    z: tagsLabel.z -1;
+                }
             }
 
             Text {

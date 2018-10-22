@@ -68,7 +68,8 @@ Item {
     }
 
     function check_updates() {
-        var url = "https://openalt.cz/wall/sched.org/?list";
+//        var url = "https://openalt.cz/wall/sched.org/?list";
+        var url = "http://pcmlich.fit.vutbr.cz/openalt2017/get_list.php";
 //        var url = "http://pcmlich.fit.vutbr.cz/tmp/if.json"
 //        var url = "http://localhost:8000/export/conference_list/?lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
@@ -121,7 +122,7 @@ Item {
             if (http.readyState == 4) {
                 if (http.status == 200) {
                     if (conferenceDetailPage.url_id === conf_data['url_id'] ) { // update UI only when showing same page
-                        console.log(http.responseText)
+//                        console.log(http.responseText)
                         data = JSON.parse(http.responseText);
                         status = "idle"
                         updateUIConference(conf_data);
@@ -179,7 +180,7 @@ Item {
         var usersArray = data.users
         for (var i = 0; i < usersArray.length; i++) {
             var user = usersArray[i];
-            if (user.name === name) {
+            if (user.username === name) {
                 return user;
             }
         }

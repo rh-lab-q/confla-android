@@ -91,11 +91,33 @@ function format_time(unix_timestamp) {
     return pad2(hours)+":"+pad2(minutes)
 }
 
-function make_speakers_str(speakersArray ) {
+function username_to_fullname(username, allUsersArray) {
+    for (var i = 0; i < allUsersArray.length; i++) {
+        var current = allUsersArray[i];
+        if (current.username === username) {
+            return current.name;
+        }
+    }
+    return '';
+}
+
+function make_speakers_str(speakers, allUsersArray ) {
     var str = "";
-    for (var j = 0; j < speakersArray.length; j++) {
-        str += speakersArray[j];
-        if ((speakersArray.length-1) != j) {
+    for (var j = 0; j < speakers.length; j++) {
+        str += username_to_fullname(speakers[j], allUsersArray);
+        if ((speakers.length-1) != j) {
+            str += ", ";
+        }
+    }
+    return str;
+
+}
+
+function make_tags_str(tags_array) {
+    var str = "";
+    for (var j = 0; j < tags_array.length; j++) {
+        str += tags_array[j];
+        if ((tags_array.length-1) != j) {
             str += ", ";
         }
     }

@@ -143,7 +143,7 @@ Page {
         id: listView
         model: filteredEventModel
         anchors.fill: parent
-        spacing: Theme.paddingMedium
+        spacing: Theme.paddingSmall
 
         header: PageHeader {
             id: pageHeader
@@ -314,7 +314,7 @@ Page {
                     obj = item.speakers;
                 }
                 item.speakers = JSON.stringify(obj);
-                item.speakers_str = F.make_speakers_str(obj); // need to work with object
+                item.speakers_str = F.make_speakers_str(obj, d.users); // need to work with object
 
 
                 if ((typeof item.tags) == (typeof "")) { // this is ugly workarround - this should be object (array of strings)
@@ -323,7 +323,7 @@ Page {
                     obj = item.tags;
                 }
 
-                item.tags_str = F.make_speakers_str(obj)
+                item.tags_str = F.make_tags_str(obj)
 
 
                 item.event_start = parseInt(item.event_start, 10);
