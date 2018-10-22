@@ -52,6 +52,10 @@ Page {
         contentWidth: slot_width * rooms_count + header_width;
         contentHeight: slot_height * (slot_count + 1);
 
+        Component.onCompleted: {
+            maximumFlickVelocity *= 2
+        }
+
         Repeater {
             model: roomsModel;
             delegate: BackgroundItem {
@@ -144,6 +148,10 @@ Page {
         model: filteredEventModel
         anchors.fill: parent
         spacing: Theme.paddingMedium
+
+        Component.onCompleted: {
+            maximumFlickVelocity *= 2
+        }
 
         header: PageHeader {
             id: pageHeader
