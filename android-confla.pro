@@ -46,4 +46,20 @@ DISTFILES += \
     android/gradle/wrapper/gradle-wrapper.properties \
     android/gradlew.bat
 
+contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
+    exists($$PWD/android/libs/armeabi-v7a/libssl.so) {
+        ANDROID_EXTRA_LIBS = \
+            $$PWD/android/libs/armeabi-v7a/libcrypto.so \
+            $$PWD/android/libs/armeabi-v7a/libssl.so
+    }
+}
+
+contains(ANDROID_TARGET_ARCH,x86) {
+    exists($$PWD/android/libs/x86/libssl.so) {
+        ANDROID_EXTRA_LIBS = \
+            $$PWD/android/libs/x86/libcrypto.so \
+            $$PWD/android/libs/x86/libssl.so
+    }
+}
+
 
