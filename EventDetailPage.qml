@@ -152,19 +152,22 @@ Page {
                 }
             }
 
-            Text {
-                id: tagsLabel;
+            Rectangle {
+                id: tagsLabelBackground
                 anchors.left: parent.left
                 anchors.right: parent.right
-                anchors.margins: Theme.paddingLarge;
-                font.pointSize: Theme.secondary_pointSize
-                color: "#ffffff";//Theme.section_header_color
-                wrapMode: Text.WordWrap
-                textFormat: Text.RichText;
-                Rectangle {
-                    id: tagsLabelBackground
-                    anchors.fill: tagsLabel
-                    z: tagsLabel.z -1;
+                anchors.margins: Theme.paddingMedium;
+                height: tagsLabel.paintedHeight + tagsLabel.anchors.topMargin + tagsLabel.anchors.bottomMargin
+                color: Theme.section_header_color
+                z: tagsLabel.z -1;
+                Text {
+                    id: tagsLabel;
+                    anchors.fill: tagsLabelBackground
+                    anchors.margins: Theme.paddingSmall
+                    font.pointSize: Theme.secondary_pointSize
+                    color: "#ffffff";//Theme.section_header_color
+                    wrapMode: Text.WordWrap
+                    textFormat: Text.RichText;
                 }
             }
 
