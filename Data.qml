@@ -75,6 +75,8 @@ Item {
 //        var url = "http://localhost:8000/export/conference_list/?lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
         http.open("GET", url, true)
+        console.log("Downloading " + url + " ...")
+
         http.onreadystatechange = function(){
             if (http.readyState == 4) {
                 if (http.status == 200) {
@@ -115,6 +117,7 @@ Item {
     function download_conference(conf_data) {
 
         var url = conf_data['url_json'] + "?json&lang="+Qt.locale().name;
+        console.log("Downloading " + url + " ...")
         var http = new XMLHttpRequest()
         http.open("GET", url, true)
 
@@ -123,7 +126,6 @@ Item {
             if (http.readyState == 4) {
                 if (http.status == 200) {
                     if (conferenceDetailPage.url_id === conf_data['url_id'] ) { // update UI only when showing same page
-//                        console.log(http.responseText)
                         data = JSON.parse(http.responseText);
                         status = "idle"
                         updateUIConference(conf_data);
@@ -139,6 +141,7 @@ Item {
                     status = "offline"
                 }
             }
+
         }
         http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded;");
         //http.setRequestHeader("Content-length", params.length);
