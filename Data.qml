@@ -68,8 +68,9 @@ Item {
     }
 
     function check_updates() {
-//        var url = "https://openalt.cz/wall/sched.org/?list";
-        var url = "http://pcmlich.fit.vutbr.cz/openalt2017/get_list.php";
+        var url = "https://openalt.cz/wall/sched.org/?list";
+        //        var url = "http://pcmlich.fit.vutbr.cz/openalt2017/get_list.php";
+//                var url = "http://pcmlich.fit.vutbr.cz/openalt2017/get_list.php";
 //        var url = "http://pcmlich.fit.vutbr.cz/tmp/if.json"
 //        var url = "http://localhost:8000/export/conference_list/?lang="+Qt.locale().name;
         var http = new XMLHttpRequest()
