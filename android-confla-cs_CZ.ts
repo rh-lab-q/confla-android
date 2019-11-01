@@ -15,7 +15,7 @@
     <message id="section-about-places">
         <source>Important Places</source>
         <oldsource>Places</oldsource>
-        <translation>Důležité místa</translation>
+        <translation>Důležitá místa</translation>
     </message>
     <message id="section-header-schedule">
         <source>Schedule</source>
