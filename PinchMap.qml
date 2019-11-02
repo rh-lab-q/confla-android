@@ -56,6 +56,7 @@ Rectangle {
 
     property bool needsUpdate: false;
     property alias places: placesModel;
+    property alias attribution: attributionText.text;
 
     signal mapItemClicked(string name, string description, url icon, double lat, double lon);
 
@@ -623,6 +624,13 @@ Rectangle {
             }
         }
 
+    }
+
+    Text {
+        id: attributionText
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+        text : "© OpenStreetMap contributors"
     }
 
 
