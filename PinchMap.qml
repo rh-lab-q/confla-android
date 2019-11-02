@@ -628,8 +628,9 @@ Rectangle {
 
     Text {
         id: attributionText
-        anchors.right: parent.right;
+        anchors.left: parent.left;
         anchors.bottom: parent.bottom;
+        anchors.margins: 3;
         text : "© OpenStreetMap contributors"
     }
 
