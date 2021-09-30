@@ -63,12 +63,18 @@ Item {
     }
 
     function read_cache() {
-        conferences = JSON.parse(configGet("conferences", "{}"));
+        try {
+            var json = configGet("conferences", "{}");
+            conferences = JSON.parse(json);
+        } catch (e) {
+            console.log(e)
+            console.log(json)
+        }
         updateUI();
     }
 
     function check_updates() {
-        var url = "https://openalt.cz/wall/sched.org/?list";
+        var url = "https://www.openalt.cz/wall/sched.org/?list";
         //        var url = "http://pcmlich.fit.vutbr.cz/openalt2017/get_list.php";
 //                var url = "http://pcmlich.fit.vutbr.cz/openalt2017/get_list.php";
 //        var url = "http://pcmlich.fit.vutbr.cz/tmp/if.json"
@@ -80,10 +86,14 @@ Item {
         http.onreadystatechange = function(){
             if (http.readyState == 4) {
                 if (http.status == 200) {
-
-                    conferences = JSON.parse(http.responseText);
-                    configSet("conferences", http.responseText)
-                    updateUI();
+                    try {
+                        conferences = JSON.parse(http.responseText);
+                        configSet("conferences", http.responseText)
+                        updateUI();
+                    } catch (e) {
+                        console.log(e)
+                        console.log(http.responseText);
+                    }
 
                 }
             }
@@ -160,6 +170,7 @@ Item {
     }
 
     function updateUIConference(conf_data) {
+        console.log(JSON.stringify(conf_data))
         conferenceDetailPage.name = conf_data['name'];
         conferenceDetailPage.url_id = (conf_data['url_id'] !== undefined) ? conf_data['url_id'] : '';
         conferenceDetailPage.feedback_url = (conf_data['url_feedback'] !== undefined) ? conf_data['url_feedback'] : '';
