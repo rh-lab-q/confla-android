@@ -32,6 +32,7 @@ Makefile*
 #QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
+*.qm
 
 Maps/OSM/12
 Maps/OSM/13
@@ -39,3 +40,5 @@ Maps/OSM/14
 Maps/OSM/15
 
 data.json
+
+build
