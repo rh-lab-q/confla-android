@@ -163,6 +163,37 @@ Item {
                                 })
                 }
             }
+            if (dayNode.nodeName === "tracks") {
+                for (var j = 0; j < dayNode.childNodes.length; ++j) {
+                    let trackNode = dayNode.childNodes[j]
+                    if (trackNode.nodeName !== "track")
+                        continue
+
+                    let name = ""
+                    let slug = ""
+                    let color = ""
+
+                    name = trackNode.firstChild.nodeValue
+
+                    if (trackNode.attributes && trackNode.attributes.length > 0) {
+                        for (var a = 0; a < trackNode.attributes.length; ++a) {
+                            var attr = trackNode.attributes[a]
+                            switch (attr.nodeName) {
+                            case "color":
+                                color = attr.nodeValue
+                                break
+                            }
+                        }
+                    }
+
+                    tracks.push({
+                                    name: name,
+                                    slug: slug,
+                                    color: color
+                                })
+                }
+            }
+
 
             if (dayNode.nodeName === "day") {
                 var dayDate = ""
@@ -186,9 +217,16 @@ Item {
                     }
                 }
 
-                if (dayStart) {
-                    days.push(Math.floor(new Date(dayStart).getTime() / 1000))
+                if (dayDate == 0 ) {
+                    console.log("SKIP " +title + " invalid date " + dayStart + " " +dayDate)
+                    continue;
                 }
+
+                if (!dayStart) {
+                    dayStart = new Date(dayDate).toISOString()
+                }
+                days.push(Math.floor(new Date(dayStart).getTime() / 1000))
+
 
 
                 for (var j = 0; j < dayNode.childNodes.length; ++j) {
@@ -253,6 +291,9 @@ Item {
                                 for (var m = 0; m < eventChild.childNodes.length; ++m) {
                                     var person_name = ""
                                     var person_id = ""
+                                    var company = ""
+                                    var avatar = ""
+                                    var bio = ""
 
                                     var p = eventChild.childNodes[m]
                                     if (p.nodeName === "person" && p.firstChild) {
@@ -263,14 +304,25 @@ Item {
                                                     person_ids.push(p.attributes[n].nodeValue)
                                                     person_id = p.attributes[n].nodeValue
                                                 }
+                                                if (p.attributes[n].nodeName === "organization") {
+                                                    company = p.attributes[n].nodeValue
+                                                }
+                                                if (p.attributes[n].nodeName === "thumbnail") {
+                                                    avatar = p.attributes[n].nodeValue
+                                                }
+                                                if (p.attributes[n].nodeName === "bio") {
+                                                    bio = p.attributes[n].nodeValue
+                                                }
+
                                             }
                                         }
                                         users.push({
                                                        "username":person_id,
                                                        "name": person_name,
-                                                       "avatar": "",
-                                                       "company": "",
+                                                       "avatar": avatar,
+                                                       "company": company,
                                                        "position": "",
+                                                       "bio": bio,
                                                    }) // fixme unique
                                     }
                                 }
@@ -292,22 +344,25 @@ Item {
                             }
                         }
 
-                        sessions.push({
-                                          "session_id": session_id,
-                                          "title": title,
-                                          "speakers": person_ids,
-                                          "description": description,
-                                          "track": track,
-                                          "tags": [track],
-                                          "start": start,
-                                          "day": dayDate,
-                                          "event_start": event_start,
-                                          "event_end": event_end,
-                                          "duration": duration,
-                                          "room": roomName,
-                                          "room_short": roomName,
-                                          "room_color": color,
-                                      })
+
+                        var item = {
+                            "session_id": session_id,
+                            "title": title,
+                            "speakers": person_ids,
+                            "description": description,
+                            "track": track,
+                            "tags": [track],
+                            "start": start,
+                            "day": dayDate,
+                            "event_start": event_start,
+                            "event_end": event_end,
+                            "duration": duration,
+                            "room": roomName,
+                            "room_short": roomName,
+                            "room_color": color,
+                        }
+
+                        sessions.push(item)
 
                     }
                 }
