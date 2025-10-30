@@ -25,7 +25,7 @@ Page {
                 anchors.left: parent.left
                 anchors.topMargin: Theme.paddingMedium;
                 anchors.leftMargin: Theme.paddingMedium;
-                width: parent.width/5
+                width: Theme.image_button_height
                 fillMode: Image.PreserveAspectFit
 
                 source: (model.icon !== undefined) ? model.icon : "";
