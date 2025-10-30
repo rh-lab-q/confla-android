@@ -12,7 +12,7 @@ int main(int argc, char *argv[])
 
 
     // QString tr_path(TRANSLATION_FOLDER);
-    QString tr_path("/home/jmlich/workspace/confla-mobile/build");
+    QString tr_path("/home/jmlich/workspace/confla-android/build");
     if ( !tr_path.isEmpty() ) {
         QString locale = QLocale::system().name();
         QTranslator *translator = new QTranslator();

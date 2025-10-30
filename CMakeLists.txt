@@ -71,7 +71,7 @@ add_executable(harbour-confla
 )
 find_package(Qt5 COMPONENTS Gui Widgets Quick Positioning REQUIRED)
 
-QT5_ADD_TRANSLATION(QM_FILES ${TS_FILES})
+QT5_ADD_TRANSLATION(QM_FILES ${TS_FILES} OPTIONS -idbased)
 add_custom_target(ui_translations DEPENDS ${QM_FILES})
 add_dependencies(harbour-confla ui_translations)
 
