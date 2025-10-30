@@ -9,11 +9,7 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
-    NetworkAccessManagerFactory namFactory;
 
-
-    qmlRegisterType<FileReader>("cz.mlich", 1, 0, "FileReader");
-    qmlRegisterType<Downloader>("cz.mlich", 1, 0, "Downloader");
 
     // QString tr_path(TRANSLATION_FOLDER);
     QString tr_path("/home/jmlich/workspace/confla-mobile/build");
@@ -23,12 +19,17 @@ int main(int argc, char *argv[])
 
         if ( !translator->load(QLocale(), "harbour-confla", "-", tr_path) ) {
             if ( !translator->load("en_US", "harbour-confla", "-", tr_path) ) {
-                qWarning() << "Cannot load translations for " << locale;
+                qWarning() << "Cannot load translations for " << locale << " " << tr_path;
             }
         }
 
         app.installTranslator(translator);
     }
+
+    NetworkAccessManagerFactory namFactory;
+
+    qmlRegisterType<FileReader>("cz.mlich", 1, 0, "FileReader");
+    qmlRegisterType<Downloader>("cz.mlich", 1, 0, "Downloader");
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("IMAGE_CACHE_FOLDER", "file://" +QStandardPaths::writableLocation(QStandardPaths::DataLocation) );
