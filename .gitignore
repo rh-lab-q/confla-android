@@ -41,4 +41,6 @@ Maps/OSM/15
 
 data.json
 
-build
+.clickable/
+build/
+CMakeLists.txt.*
