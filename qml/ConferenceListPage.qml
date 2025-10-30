@@ -96,6 +96,11 @@ Page {
                     continue;
                 }
 
+                if (/\.ics/.test(conf.url)) {
+                    console.log("SKIP cannot parse ics " + conf.title)
+                    continue
+                }
+
                 let selectObj = {
                     "url": conf.url,
                     "icon": (conf.metadata !== undefined && conf.metadata.icon !== undefined) ? conf.metadata.icon: "",
