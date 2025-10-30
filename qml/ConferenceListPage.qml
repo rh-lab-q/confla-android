@@ -87,6 +87,15 @@ Page {
             var conf;
             for (var i = 0; i < confs.length; i++) {
                 conf = confs[i];
+
+                var endDate = new Date(conf.end);
+                var now = new Date();
+
+                if (endDate < now) {
+                    console.log("SKIP " + conf.title + " (in past " + endDate + ")")
+                    continue;
+                }
+
                 let selectObj = {
                     "url": conf.url,
                     "icon": (conf.metadata !== undefined && conf.metadata.icon !== undefined) ? conf.metadata.icon: "",
