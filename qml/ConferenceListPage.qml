@@ -89,10 +89,12 @@ Page {
                 conf = confs[i];
 
                 var endDate = new Date(conf.end);
+                endDate.setDate(endDate.getDate() + 1); // make sure not to hide event on its last day, because it is 00:00 not 23:59
+
                 var now = new Date();
 
                 if (endDate < now) {
-                    console.log("SKIP " + conf.title + " (in past " + endDate + ")")
+                    // console.log("SKIP " + conf.title + " (in past " + endDate + ")")
                     continue;
                 }
 

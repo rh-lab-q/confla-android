@@ -44,3 +44,4 @@ data.json
 .clickable/
 build/
 CMakeLists.txt.*
+.qtcreator
